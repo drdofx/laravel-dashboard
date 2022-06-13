@@ -1,3 +1,7 @@
+@php
+    $isAdmin = \Illuminate\Support\Facades\Auth::user()->admin;
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,9 +20,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
-                        {{ __('User Management') }}
-                    </x-nav-link>
+                    @if($isAdmin)
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                            {{ __('User Management') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -74,9 +80,11 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
-                {{ __('User Management') }}
-            </x-responsive-nav-link>
+            @if($isAdmin)
+                <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                    {{ __('User Management') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

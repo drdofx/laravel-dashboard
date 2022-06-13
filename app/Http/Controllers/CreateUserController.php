@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 
 class CreateUserController extends Controller
 {
+    public function __construct() {
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
