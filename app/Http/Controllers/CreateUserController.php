@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -84,13 +85,13 @@ class CreateUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
 
         $user->update($request->only('name', 'email'));
 
-        $message = 'User '.$user->name. ' updated successfully!';
+        $message = 'User '. $user->name . ' updated successfully!';
 
         return redirect()->route('admin.index')->with('message', $message);
     }

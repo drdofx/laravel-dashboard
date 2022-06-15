@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateProfileRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +23,11 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules()
     {
-        $id = Auth::id();
+        $id = $this->route('admin');
 
         return [
             'name' => 'required',
-            'email' => 'required|unique:users,email,' . $id,
-            'password' => 'nullable|min:8|confirmed'
+            'email' => 'required|unique:users,email,' . $id
         ];
     }
 }

@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('product_name');
             $table->string('stock');
             $table->string('price');
+            $table->string('file_name');
             //relationship
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
