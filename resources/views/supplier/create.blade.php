@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('Create User') }}
+        {{ __('Add Supplier Data') }}
     </x-slot>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create new user') }}
+            {{ __('Add new supplier') }}
         </h2>
     </x-slot>
 
@@ -16,7 +16,7 @@
                     <x-validation-errors :errors="$errors" />
 {{--                    <x-success-message />--}}
 
-                    <form method="POST" action="{{ route('admin.store') }}">
+                    <form method="POST" action="{{ route('supplier.store') }}">
                         @csrf
 
                         <!-- Name -->
@@ -26,17 +26,17 @@
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name" required autofocus />
                         </div>
 
-                        <!-- Email Address -->
+                        <!-- Phone Number -->
                         <div class="mt-4">
-                            <x-label for="email" :value="__('Email')" />
+                            <x-label for="phone_number" :value="__('Phone Number (Type in all number, with length of 11 to 14)')" />
 
-                            <x-input id="email" class="block mt-1 w-full" type="email" name="email" required />
+                            <x-input id="phone_number" class="block mt-1 w-full" type="tel" name="phone_number" pattern="[0-9]{11,14}" placeholder="08777xxxxxxx" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
 
                             <x-button class="ml-3">
-                                {{ __('Create') }}
+                                {{ __('Add') }}
                             </x-button>
                         </div>
                     </form>

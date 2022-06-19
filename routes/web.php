@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/profile/update', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('/admin', \App\Http\Controllers\CreateUserController::class);
+
+    Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
 });
 
 require __DIR__.'/auth.php';

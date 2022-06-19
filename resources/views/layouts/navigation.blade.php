@@ -24,7 +24,12 @@
                         <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
                             {{ __('User Management') }}
                         </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier.index')">
+                            {{ __('Supplier') }}
+                        </x-nav-link>
                     @endif
+
                 </div>
             </div>
 
@@ -83,6 +88,10 @@
             @if($isAdmin)
                 <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
                     {{ __('User Management') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier.index')">
+                    {{ __('Supplier') }}
                 </x-responsive-nav-link>
             @endif
         </div>

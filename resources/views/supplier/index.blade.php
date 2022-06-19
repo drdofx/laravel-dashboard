@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('User Management') }}
+        {{ __('Supplier Data') }}
     </x-slot>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User Management') }}
+            {{ __('Supplier Data') }}
         </h2>
     </x-slot>
 
@@ -17,9 +17,9 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <x-success-message />
-                                <a href="{{ route('admin.create') }}">
+                                <a href="{{ route('supplier.create') }}">
                                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Create new user
+                                        Add new supplier
                                     </button>
                                 <a/>
                                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -30,7 +30,10 @@
                                                 Name
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Email
+                                                Phone Number
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Data Created By
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Created At
@@ -41,21 +44,24 @@
                                         </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach ($users as $user)
+                                        @foreach ($suppliers as $supplier)
 {{--                                            @php dd($user); @endphp--}}
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->name }}
+                                                    {{ $supplier->supplier_name }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $user->email }}
+                                                    {{ $supplier->phone_number }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ \Carbon\Carbon::parse($user->created_at)->locale('id_ID')->isoFormat('LLLL') }}
-{{--                                                    {{ $user->created_at }}--}}
+                                                    {{ $supplier->user->name }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ \Carbon\Carbon::parse($supplier->created_at)->locale('id_ID')->isoFormat('LLLL') }}
+{{--                                                    {{ \Carbon\Carbon::now() }}--}}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="{{ route('admin.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                    <a href="{{ route('supplier.edit', $supplier) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -64,7 +70,7 @@
 
                                 </div>
                                 <div class="mt-4">
-                                    {{ $users->links() }}
+                                    {{ $suppliers->links() }}
                                 </div>
                             </div>
                         </div>

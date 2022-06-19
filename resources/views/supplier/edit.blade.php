@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('Edit User') }}
+        {{ __('Edit Supplier Data') }}
     </x-slot>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit a user') }}
+            {{ __('Edit a supplier data') }}
         </h2>
     </x-slot>
 
@@ -27,13 +27,10 @@
                                 </button>
                                 <div class="p-6 text-center">
                                     <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <h3 class="mb-3 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this user?</h3>
-                                    <form method="POST" action="{{ route('admin.destroy', $user) }}">
+                                    <h3 class="mb-3 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this supplier data?</h3>
+                                    <form method="POST" action="{{ route('supplier.destroy', $supplier) }}">
                                         @method('DELETE')
                                         @csrf
-                                        {{--                        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">--}}
-                                        {{--                            {{ __('Delete') }}--}}
-                                        {{--                        </button>--}}
                                         <div class="py-2 align-middle inline-block min-w-full">
 
                                             <x-button-red data-modal-toggle="popup-modal" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
@@ -50,22 +47,28 @@
 
 
 
-                    <form method="POST" action="{{ route('admin.update', $user) }}">
+                    <form method="POST" action="{{ route('supplier.update', $supplier) }}">
                         @method('PUT')
                         @csrf
-
                         <!-- Name -->
                         <div>
                             <x-label for="name" :value="__('Name')" />
 
-                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ $user->name }}" autofocus />
+                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ $supplier->supplier_name }}" autofocus />
                         </div>
 
-                        <!-- Email Address -->
+                        <!-- Phone Number -->
                         <div class="mt-4">
-                            <x-label for="email" :value="__('Email')" />
+                            <x-label for="phone_number" :value="__('Phone Number (Type in all number, with length of 11 to 14)')" />
 
-                            <x-input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ $user->email }}" autofocus />
+                            <x-input id="phone_number" class="block mt-1 w-full" type="tel" name="phone_number" pattern="[0-9]{11,14}" placeholder="08777xxxxxxx" value="{{ $supplier->phone_number }}" autofocus />
+                        </div>
+
+                        <!-- Created by (disabled) -->
+                        <div class="mt-4">
+                            <x-label for="created_by" :value="__('Created by')" />
+
+                            <x-input id="created_by" class="block mt-1 w-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" type="text" name="created_by" value="{{ $supplier->user->name }}" disabled />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
