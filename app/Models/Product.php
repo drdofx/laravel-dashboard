@@ -12,4 +12,8 @@ class Product extends Model
     public function order() {
         return $this->belongsToMany(Order::class);
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

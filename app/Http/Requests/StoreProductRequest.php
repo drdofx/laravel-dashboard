@@ -13,7 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,13 @@ class StoreProductRequest extends FormRequest
      */
     public function rules()
     {
+        // Uploaded image can only be in the type of jpg, png, svg, or gif - with max size of 10 MB.
+
         return [
-            //
+            'name' => 'required',
+            'stock' => 'required',
+            'price' => 'required',
+            'image' => 'nullable|mimes:jpeg,jpg,png,svg,gif|max:10000'
         ];
     }
 }

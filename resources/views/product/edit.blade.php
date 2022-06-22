@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('Edit Supplier Data') }}
+        {{ __('Edit Product Data') }}
     </x-slot>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit a supplier data') }}
+            {{ __('Edit a product data') }}
         </h2>
     </x-slot>
 
@@ -27,8 +27,8 @@
                                 </button>
                                 <div class="p-6 text-center">
                                     <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <h3 class="mb-3 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this supplier data?</h3>
-                                    <form method="POST" action="{{ route('supplier.destroy', $supplier) }}">
+                                    <h3 class="mb-3 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product data?</h3>
+                                    <form method="POST" action="{{ route('product.destroy', $product) }}">
                                         @method('DELETE')
                                         @csrf
                                         <div class="py-2 align-middle inline-block min-w-full">
@@ -47,28 +47,54 @@
 
 
 
-                    <form method="POST" action="{{ route('supplier.update', $supplier) }}">
+                    <form method="POST" action="{{ route('product.update', $product) }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <!-- Name -->
                         <div>
-                            <x-label for="name" :value="__('Name')" />
+                            <x-label for="name" :value="__('Product Name')" />
 
-                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ $supplier->supplier_name }}" autofocus />
+                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ $product->product_name }}" autofocus />
                         </div>
 
-                        <!-- Phone Number -->
+                        <!-- Stock -->
                         <div class="mt-4">
-                            <x-label for="phone_number" :value="__('Phone Number (Type in all number, with length of 11 to 14)')" />
+                            <x-label for="stock" :value="__('Initial Stock')" />
 
-                            <x-input id="phone_number" class="block mt-1 w-full" type="tel" name="phone_number" pattern="[0-9]{11,14}" placeholder="08777xxxxxxx" value="{{ $supplier->phone_number }}" autofocus />
+                            <x-input id="stock" class="block mt-1 w-full" type="number" name="stock" value="{{ $product->stock }}" />
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mt-4">
+                            <x-label for="price" :value="__('Initial Price')" />
+
+                            <x-input id="price" class="block mt-1 w-full" type="number" min="0" step="100" name="price" value="{{ $product->price }}" />
+                        </div>
+
+                        <!-- Image-->
+                        <div class="mt-4">
+                            <x-label for="image" :value="__('Image (Optional)')" />
+
+                            @if (\Illuminate\Support\Facades\Storage::disk('public')->exists($product->file_name))
+                                <p class="mt-1 text-xs text-gray-500" id="file_input_help">Existing image:</p>
+                                <img class="mt-1 h-48 w-96" src="{{ \Illuminate\Support\Facades\Storage::url($product->file_name) }}" alt="Image of {{ $product->product_name }}">
+                                <div class="flex items-center mb-4">
+                                    <input id="default-checkbox" value="true" type="checkbox" name="delete_image" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                    <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900">Delete image</label>
+                                </div>
+                            @endif
+
+                            <x-input id="image" class="block mt-1 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:placeholder-gray-400" aria-describedby="file_input_help" type="file" name="image" />
+
+                            <p class="ml-1 mt-2 text-xs italic text-gray-500" id="file_input_help">SVG, PNG, JPG or GIF.</p>
+
                         </div>
 
                         <!-- Created by (disabled) -->
                         <div class="mt-4">
                             <x-label for="created_by" :value="__('Created by')" />
 
-                            <x-input id="created_by" class="block mt-1 w-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" type="text" name="created_by" value="{{ $supplier->user->name }}" disabled />
+                            <x-input id="created_by" class="block mt-1 w-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" type="text" name="created_by" value="{{ $product->user->name }}" disabled />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">

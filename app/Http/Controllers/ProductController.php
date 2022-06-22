@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,7 +18,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with('user')->paginate(5);
+
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -25,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -36,7 +41,26 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = new Product();
+        $product->product_name = $request->name;
+        $product->stock = $request->stock;
+        $product->price = $request->price;
+
+        if ($request->file('image')) {
+            $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
+        } else {
+            $path = null;
+        }
+
+        $product->file_name = $path ?? "-";
+
+        $product->created_by = Auth::id();
+
+        $product->save();
+
+        $message = 'Product data "'.$product->product_name. '" added successfully!';
+
+        return redirect()->route('product.index')->with('message', $message);
     }
 
     /**
@@ -58,7 +82,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('product.edit', compact('product'));
     }
 
     /**
@@ -70,7 +94,39 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->product_name = $request->name ?? $product->product_name;
+        $product->stock = $request->stock ??  $product->stock;
+        $product->price = $request->price ?? $product->price;
+
+        if ($request->file('image')) {
+            $old_path = $product->file_name;
+
+            $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
+
+            if (Storage::disk('public')->exists($old_path)) {
+                Storage::disk('public')->delete($old_path);
+            }
+        } else {
+            if ($request->delete_image) {
+                $old_path = $product->file_name;
+
+                $product->file_name = "-";
+
+                if (Storage::disk('public')->exists($old_path)) {
+                    Storage::disk('public')->delete($old_path);
+                }
+            }
+
+            $path = null;
+        }
+
+        $product->file_name = $path ?? $product->file_name;
+
+        $product->save();
+
+        $message = 'Product data "'.$product->product_name. '" updated successfully!';
+
+        return redirect()->route('product.index')->with('message', $message);
     }
 
     /**
@@ -81,6 +137,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $temp = $product->product_name;
+
+        $product->delete();
+
+        $message = 'Product data "'.$temp. '" deleted successfully!';
+
+        return redirect()->route('product.index')->with('message', $message);
     }
 }

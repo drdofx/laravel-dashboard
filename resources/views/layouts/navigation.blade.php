@@ -28,6 +28,10 @@
                         <x-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier.index')">
                             {{ __('Supplier') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                            {{ __('Product') }}
+                        </x-nav-link>
                     @endif
 
                 </div>
@@ -92,6 +96,10 @@
             @else
                 <x-responsive-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier.index')">
                     {{ __('Supplier') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                    {{ __('Product') }}
                 </x-responsive-nav-link>
             @endif
         </div>
