@@ -18,9 +18,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', function () {
         return view('profile');
@@ -33,6 +31,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
 
     Route::resource('/product', \App\Http\Controllers\ProductController::class);
+
+    Route::resource('/order', \App\Http\Controllers\OrderController::class);
 });
 
 require __DIR__.'/auth.php';

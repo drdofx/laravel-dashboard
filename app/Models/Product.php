@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     public function order() {
-        return $this->belongsToMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function user() {
