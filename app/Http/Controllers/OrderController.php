@@ -46,7 +46,7 @@ class OrderController extends Controller
         $product = Product::find($request->name);
 
         if ($request->quantity > $product->stock) {
-            return back()->withErrors("Quantity melebihi stock product");
+            return back()->withErrors("Quantity melebihi stock product". $product->product_name);
         }
 
         $order->product_id = $product->id;
@@ -100,10 +100,30 @@ class OrderController extends Controller
      */
     public function update(StoreOrderRequest $request, Order $order)
     {
-        $product = Product::find($request->name);
+        $product = Product::find($order->product_id);
 
         $change_in_quantity = false;
-        if ($request->quantity != $order->quantity) {
+        $change_in_product = false;
+
+        if ($request->name != $order->product_id) {
+            $change_in_product = true;
+
+            $new_product =  Product::find($request->name);
+
+            $product->stock = $product->stock + $order->quantity;
+
+            if ($request->quantity > $new_product->stock) {
+                return back()->withErrors("Quantity melebihi stock product ". $new_product->product_name);
+            }
+            $new_product->stock = $new_product->stock - $request->quantity;
+
+            $product->save();
+            $new_product->save();
+
+            $order->product_id = $request->name;
+        }
+
+        if (!$change_in_product && $request->quantity != $order->quantity) {
             $change_in_quantity = true;
 
             $diff = $request->quantity - $order->quantity;
@@ -114,9 +134,8 @@ class OrderController extends Controller
             return back()->withErrors("Quantity melebihi stock product");
         }
 
-        $order->product_id = $product->id ?? $order->product_id;
         $order->quantity = $request->quantity ?? $order->quantity;
-        $order->price = $order->quantity ? ($order->quantity * $product->price) : $order->price;
+        $order->price = $change_in_product ? ($order->quantity * $new_product->price) : ($order->quantity * $product->price);
         $order->order_date = $request->order_date ? Carbon::createFromFormat('d/m/Y', $request->order_date)->toDateTimeString() : $order->order_date;
 
         $order->save();
@@ -140,7 +159,12 @@ class OrderController extends Controller
     {
         $temp = $order->id;
 
+        $product = Product::find($order->product_id);
+        $product->stock = $product->stock + $order->quantity;
+
         $order->delete();
+
+        $product->save();
 
         $message = 'Order data "'.$temp. '" deleted successfully!';
 

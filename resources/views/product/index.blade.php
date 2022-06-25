@@ -73,7 +73,7 @@
                                                         {{ $product->stock }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Rp. {{ $product->price }}
+                                                        Rp. {{ number_format($product->price, 2, ',' ,'.') }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {{ $product->user->name }}

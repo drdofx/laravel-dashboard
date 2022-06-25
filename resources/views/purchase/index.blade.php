@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('Order Data') }}
+        {{ __('Purchase Data') }}
     </x-slot>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Order Data') }}
+            {{ __('Purchase Data') }}
         </h2>
     </x-slot>
 
@@ -17,9 +17,9 @@
                         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <x-success-message />
-                                <a href="{{ route('order.create') }}">
+                                <a href="{{ route('purchase.create') }}">
                                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Add new order
+                                        Add new purchase
                                     </button>
                                     <a/>
                                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -33,13 +33,16 @@
                                                     Product
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Supplier
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Quantity
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Price
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Order Date
+                                                    Purchase Date
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Data Created By
@@ -50,29 +53,32 @@
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            @foreach ($orders as $key=>$order)
+                                            @foreach ($purchases as $key=>$purchase)
                                                 {{--                                            @php dd($user); @endphp--}}
                                                 <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ $orders->firstitem() + $key }}
+                                                        {{ $purchases->firstitem() + $key }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ $order->product->product_name }}
+                                                        {{ $purchase->product->product_name }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ $order->quantity }}
+                                                        {{ $purchase->supplier->supplier_name }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Rp. {{ number_format($order->price, 2, ',' ,'.') }}
+                                                        {{ $purchase->quantity }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ \Carbon\Carbon::createFromFormat('Y-m-d', $order->order_date)->locale('id_ID')->translatedFormat('d F Y') }}
+                                                        Rp. {{ number_format($purchase->total_price, 2, ',' ,'.') }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{ $order->user->name }}
+                                                        {{ \Carbon\Carbon::createFromFormat('Y-m-d', $purchase->purchase_date)->locale('id_ID')->translatedFormat('d F Y') }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {{ $purchase->user->name }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <a href="{{ route('order.edit', $order) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                        <a href="{{ route('purchase.edit', $purchase) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -81,7 +87,7 @@
 
                                     </div>
                                     <div class="mt-4">
-                                        {{ $orders->links() }}
+                                        {{ $purchases->links() }}
                                     </div>
                             </div>
                         </div>
