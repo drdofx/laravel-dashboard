@@ -5,15 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\ResetPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class CreateUserController extends Controller
 {
     public function __construct() {
         $this->middleware('admin');
     }
+
+    /**
+     * Generate a random string with the length defined as the argument (default to 10)
+     *
+     * @param $length
+     * @return false|string
+     */
+    private function generateRandomString($length = 10) {
+        return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -44,13 +57,23 @@ class CreateUserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
+        $password = $this->generateRandomString();
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make('12345678')
+            'password' => Hash::make($password)
         ]);
 
+        $user_send = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $password
+        ];
+
         $message = 'User '.$user->name. ' created successfully!';
+
+        Mail::to(env('MAIL_USERNAME'))->send(new ResetPassword("create", $user_send));
 
         return redirect()->route('admin.index')->with('message', $message);
     }
