@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -28,13 +28,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/admin', \App\Http\Controllers\CreateUserController::class);
 
-    Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
+    Route::middleware('user')->group(function() {
+        Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
 
-    Route::resource('/product', \App\Http\Controllers\ProductController::class);
+        Route::resource('/product', \App\Http\Controllers\ProductController::class);
 
-    Route::resource('/order', \App\Http\Controllers\OrderController::class);
+        Route::resource('/order', \App\Http\Controllers\OrderController::class);
 
-    Route::resource('/purchase', \App\Http\Controllers\PurchaseController::class);
+        Route::resource('/purchase', \App\Http\Controllers\PurchaseController::class);
+    });
 });
 
 require __DIR__.'/auth.php';
