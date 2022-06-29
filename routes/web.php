@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/admin', \App\Http\Controllers\CreateUserController::class);
 
+    Route::post('/admin-reset/{id}', [\App\Http\Controllers\CreateUserController::class, 'resetPassword'])->name('admin-reset');
+
     Route::middleware('user')->group(function() {
         Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
 

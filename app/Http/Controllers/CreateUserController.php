@@ -119,6 +119,29 @@ class CreateUserController extends Controller
         return redirect()->route('admin.index')->with('message', $message);
     }
 
+    public function resetPassword($id)
+    {
+        $user = User::find($id);
+
+        $password = $this->generateRandomString();
+
+        $user->password = Hash::make($password);
+
+        $user->save();
+
+        $user_send = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $password
+        ];
+
+        $message = 'The password for user '.$user->name. ' has been successfully reset!';
+
+        Mail::to(env('MAIL_USERNAME'))->send(new ResetPassword("reset", $user_send));
+
+        return redirect()->route('admin.index')->with('message', $message);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
