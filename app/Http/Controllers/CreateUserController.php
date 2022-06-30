@@ -32,9 +32,13 @@ class CreateUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('admin', 0)->paginate(5);
+        if ($request->search) {
+            $users = User::where('name', 'LIKE','%'.$request->search.'%')->where('admin', 0)->paginate(5);
+        } else {
+            $users = User::where('admin', 0)->paginate(5);
+        }
 
         return view('admin.index', compact('users'));
     }

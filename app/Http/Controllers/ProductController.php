@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,9 +17,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('user')->paginate(5);
+        if ($request->search) {
+            $products = Product::where('product_name', 'LIKE','%'.$request->search.'%')->with('user')->paginate(5);
+        } else {
+            $products = Product::with('user')->paginate(5);
+        }
 
         return view('product.index', compact('products'));
     }
