@@ -61,11 +61,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        @if($isAdmin)
-                            <x-dropdown-link :href="route('profile')">
-                                {{ __('My Profile') }}
-                            </x-dropdown-link>
-                        @endif
+                       
+                        <x-dropdown-link :href="route('profile')">
+                            {{ __('My Profile') }}
+                        </x-dropdown-link>
+                        
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -130,11 +130,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                @if($isAdmin)
-                    <x-responsive-nav-link :href="route('profile')">
-                        {{ __('My Profile') }}
-                    </x-responsive-nav-link>
-                @endif
+
+                <x-responsive-nav-link :href="route('profile')">
+                    {{ __('My Profile') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
