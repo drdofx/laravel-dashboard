@@ -46,7 +46,7 @@ class OrderController extends Controller
         $product = Product::find($request->name);
 
         if ($request->quantity > $product->stock) {
-            return back()->withErrors("Quantity melebihi stock product". $product->product_name);
+            return back()->withErrors("Quantity melebihi stock product ". $product->product_name);
         }
 
         $order->product_id = $product->id;
@@ -131,7 +131,7 @@ class OrderController extends Controller
         }
 
         if ($change_in_quantity && $request->quantity > $product->stock) {
-            return back()->withErrors("Quantity melebihi stock product");
+            return back()->withErrors("Quantity melebihi stock product ". $product->product_name);
         }
 
         $order->quantity = $request->quantity ?? $order->quantity;

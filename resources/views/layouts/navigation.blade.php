@@ -61,9 +61,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')">
-                            {{ __('My Profile') }}
-                        </x-dropdown-link>
+                        @if($isAdmin)
+                            <x-dropdown-link :href="route('profile')">
+                                {{ __('My Profile') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -128,9 +130,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')">
-                    {{ __('My Profile') }}
-                </x-responsive-nav-link>
+                @if($isAdmin)
+                    <x-responsive-nav-link :href="route('profile')">
+                        {{ __('My Profile') }}
+                    </x-responsive-nav-link>
+                @endif
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
