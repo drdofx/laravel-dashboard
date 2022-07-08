@@ -51,7 +51,7 @@ class ProductController extends Controller
         $product->stock = $request->stock;
 
         if ($request->file('image')) {
-            $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
+            $path = Storage::disk('public_uploads')->putFileAs('', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
         } else {
             $path = null;
         }
@@ -104,10 +104,11 @@ class ProductController extends Controller
         if ($request->file('image')) {
             $old_path = $product->file_name;
 
-            $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
+//            $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
+            $path = Storage::disk('public_uploads')->putFileAs('', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
 
-            if (Storage::disk('public')->exists($old_path)) {
-                Storage::disk('public')->delete($old_path);
+            if (Storage::disk('public_uploads')->exists($old_path)) {
+                Storage::disk('public_uploads')->delete($old_path);
             }
         } else {
             if ($request->delete_image) {
@@ -115,8 +116,8 @@ class ProductController extends Controller
 
                 $product->file_name = "-";
 
-                if (Storage::disk('public')->exists($old_path)) {
-                    Storage::disk('public')->delete($old_path);
+                if (Storage::disk('public_uploads')->exists($old_path)) {
+                    Storage::disk('public_uploads')->delete($old_path);
                 }
             }
 
