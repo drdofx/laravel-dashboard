@@ -77,7 +77,7 @@
 
                             @if (\Illuminate\Support\Facades\Storage::disk('public_uploads')->exists($product->file_name))
                                 <p class="mt-1 text-xs text-gray-500" id="file_input_help">Existing image:</p>
-                                <img class="mt-1 h-96 w-96" src="{{ \Illuminate\Support\Facades\Storage::disk('public_uploads')->url($product->file_name) }}" alt="Image of {{ $product->product_name }}">
+                                <img class="mt-1 h-full w-full" src="{{ \Illuminate\Support\Facades\Storage::disk('public_uploads')->url($product->file_name) }}" alt="Image of {{ $product->product_name }}">
                                 <div class="flex items-center mb-4">
                                     <input id="default-checkbox" value="true" type="checkbox" name="delete_image" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
                                     <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900">Delete image</label>
