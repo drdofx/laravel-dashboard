@@ -74,8 +74,8 @@
                                                         {{ $products->firstitem() + $key }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        @if (\Illuminate\Support\Facades\Storage::disk('public')->exists($product->file_name))
-                                                            <img class="h-full w-full" src="{{ \Illuminate\Support\Facades\Storage::url($product->file_name) }}" alt="Image of {{ $product->product_name }}">
+                                                        @if (\Illuminate\Support\Facades\Storage::disk('public_uploads')->exists($product->file_name))
+                                                            <img class="h-full w-full" src="{{ \Illuminate\Support\Facades\Storage::disk('public_uploads')->url($product->file_name) }}" alt="Image of {{ $product->product_name }}">
                                                         @else
                                                             -
                                                         @endif
