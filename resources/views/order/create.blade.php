@@ -38,6 +38,13 @@
                             <x-input id="quantity" class="block mt-1 w-full" type="number" name="quantity" required />
                         </div>
 
+                        <!-- Price -->
+                        <div class="mt-4">
+                            <x-label for="price" :value="__('Total Price')" />
+
+                            <x-input id="price" class="block mt-1 w-full" type="number" min="0" step="100" name="price" required />
+                        </div>
+
                         <!-- Date -->
                         <div class="mt-4">
                             <x-label for="order_date" :value="__('Order Date')" />

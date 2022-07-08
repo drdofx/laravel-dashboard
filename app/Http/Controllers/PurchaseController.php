@@ -19,7 +19,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::with('user')->paginate(5);
+        $purchases = Purchase::with('user')->orderByDesc('purchase_date')->paginate(10);
 
         return view('purchase.index', compact('purchases'));
     }
@@ -50,7 +50,8 @@ class PurchaseController extends Controller
         $purchase->product_id = $product->id;
         $purchase->supplier_id = $request->supplier;
         $purchase->quantity = $request->quantity;
-        $purchase->total_price = $request->quantity * $product->price * 0.8;
+//        $purchase->total_price = $request->quantity * $product->price * 0.8;
+        $purchase->total_price = $request->price;
         $purchase->purchase_date = Carbon::createFromFormat('d/m/Y', $request->purchase_date)->toDateTimeString();
 
         $purchase->created_by = Auth::id();
@@ -128,7 +129,8 @@ class PurchaseController extends Controller
 
         $purchase->supplier_id = $request->supplier ?? $purchase->supplier;
         $purchase->quantity = $request->quantity ?? $purchase->quantity;
-        $purchase->total_price = $change_in_product ? ($purchase->quantity * $new_product->price * 0.8) : ($purchase->quantity * $product->price * 0.8);
+//        $purchase->total_price = $change_in_product ? ($purchase->quantity * $new_product->price * 0.8) : ($purchase->quantity * $product->price * 0.8);
+        $purchase->total_price = $request->price ?? $purchase->total_price;
         $purchase->purchase_date = $request->purchase_date ? Carbon::createFromFormat('d/m/Y', $request->purchase_date)->toDateTimeString() : $purchase->purchase_date;
 
         $purchase->save();
