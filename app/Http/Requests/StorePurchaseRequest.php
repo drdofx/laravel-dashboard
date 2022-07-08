@@ -27,6 +27,7 @@ class StorePurchaseRequest extends FormRequest
             'product' => 'required',
             'supplier' => 'required',
             'quantity' => 'required',
+            'price' => 'required',
             'purchase_date' => 'required'
         ];
     }

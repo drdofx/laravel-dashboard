@@ -20,9 +20,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $products = Product::where('product_name', 'LIKE','%'.$request->search.'%')->with('user')->paginate(5);
+            $products = Product::where('product_name', 'LIKE','%'.$request->search.'%')->with('user')->paginate(10);
         } else {
-            $products = Product::with('user')->paginate(5);
+            $products = Product::with('user')->paginate(10);
         }
 
         return view('product.index', compact('products'));
@@ -49,7 +49,6 @@ class ProductController extends Controller
         $product = new Product();
         $product->product_name = $request->name;
         $product->stock = $request->stock;
-        $product->price = $request->price;
 
         if ($request->file('image')) {
             $path = Storage::disk('public')->putFileAs('images', $request->file('image'), Carbon::now()->timestamp . "_" . $request->file('image')->getClientOriginalName());
@@ -101,7 +100,6 @@ class ProductController extends Controller
     {
         $product->product_name = $request->name ?? $product->product_name;
         $product->stock = $request->stock ??  $product->stock;
-        $product->price = $request->price ?? $product->price;
 
         if ($request->file('image')) {
             $old_path = $product->file_name;

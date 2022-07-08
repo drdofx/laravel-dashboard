@@ -52,9 +52,9 @@
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Stock
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Price
-                                                </th>
+{{--                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
+{{--                                                    Price--}}
+{{--                                                </th>--}}
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Data Created By
                                                 </th>
@@ -86,9 +86,9 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {{ $product->stock }}
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Rp. {{ number_format($product->price, 2, ',' ,'.') }}
-                                                    </td>
+{{--                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">--}}
+{{--                                                        Rp. {{ number_format($product->price, 2, ',' ,'.') }}--}}
+{{--                                                    </td>--}}
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {{ $product->user->name }}
                                                     </td>

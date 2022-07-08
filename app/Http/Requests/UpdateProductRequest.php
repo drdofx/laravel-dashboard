@@ -28,7 +28,6 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => 'required',
             'stock' => 'required',
-            'price' => 'required',
             'image' => 'nullable|mimes:jpeg,jpg,png,svg,gif|max:10000',
             'delete_image' => 'nullable'
         ];
