@@ -18,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('user')->paginate(5);
+        $orders = Order::with('user')->orderByDesc('order_date')->paginate(10);
 
         return view('order.index', compact('orders'));
     }
@@ -51,7 +51,8 @@ class OrderController extends Controller
 
         $order->product_id = $product->id;
         $order->quantity = $request->quantity;
-        $order->price = $request->quantity * $product->price;
+//        $order->price = $request->quantity * $product->price;
+        $order->price = $request->price;
         $order->order_date = Carbon::createFromFormat('d/m/Y', $request->order_date)->toDateTimeString(); // '22/02/2020'
 
         $order->created_by = Auth::id();
@@ -135,7 +136,8 @@ class OrderController extends Controller
         }
 
         $order->quantity = $request->quantity ?? $order->quantity;
-        $order->price = $change_in_product ? ($order->quantity * $new_product->price) : ($order->quantity * $product->price);
+//        $order->price = $change_in_product ? ($order->quantity * $new_product->price) : ($order->quantity * $product->price);
+        $order->price = $request->price ?? $order->price;
         $order->order_date = $request->order_date ? Carbon::createFromFormat('d/m/Y', $request->order_date)->toDateTimeString() : $order->order_date;
 
         $order->save();

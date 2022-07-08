@@ -89,6 +89,13 @@
                             <x-input id="quantity" class="block mt-1 w-full" type="number" name="quantity" value="{{ $purchase->quantity }}" required />
                         </div>
 
+                        <!-- Price -->
+                        <div class="mt-4">
+                            <x-label for="price" :value="__('Total Price')" />
+
+                            <x-input id="price" class="block mt-1 w-full" type="number" min="0" step="100" name="price" value="{{ $purchase->total_price }}" />
+                        </div>
+
                         <!-- Date -->
                         <div class="mt-4">
                             <x-label for="purchase_date" :value="__('Order Date')" />

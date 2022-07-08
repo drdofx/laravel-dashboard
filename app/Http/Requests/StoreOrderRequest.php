@@ -26,6 +26,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'name' => 'required',
             'quantity' => 'required',
+            'price' => 'required',
             'order_date' => 'required'
         ];
     }
